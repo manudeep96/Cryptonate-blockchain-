@@ -1,6 +1,5 @@
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
-import { privateRoutes, donorPages, charityPages } from "./routes";
 
 import Layout from "./Layout";
 function App() {
