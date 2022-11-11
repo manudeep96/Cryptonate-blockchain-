@@ -49,16 +49,13 @@ contract Cryptonate {
     }
 
     // Register a donor
-    function registerDonor(address donorAddress) public {
+    function registerDonor(address donorAddress) public payable{
         Donor storage d = allDonors[donorAddress];
         d._donor = donorAddress;
     }
 
-    function registerDonation(address charityAddress, uint256 amount)
-        public
-        payable
-    {
-        require(msg.value == amount && amount > 0);
+    function registerDonation(address charityAddress, uint256 amount) public payable{
+        // require(msg.value == amount && amount > 0);
 
         // Add charity to the donor's list
         Donor storage d = allDonors[msg.sender];
