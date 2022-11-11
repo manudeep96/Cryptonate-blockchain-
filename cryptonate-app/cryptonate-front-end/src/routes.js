@@ -3,8 +3,16 @@ import ChooseCharity from "./views/ChooseCharity";
 import Donate from "./views/Donate";
 import RecentActivity from "./views/RecentActivity";
 import RequestFunds from "./views/RequestFunds";
+import Login from "./views/Login"
 
 export const privateRoutes = [
+  {
+    name: "Login",
+    element: Login,
+    path: "/login",
+    sideBar: true,
+    userType: ["donor", "charity"],
+  },
   {
     name: "All Polls",
     element: AllPolls,
