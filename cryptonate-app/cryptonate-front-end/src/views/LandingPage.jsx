@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login = ({ addAddress }) => {
   const navigate = useNavigate();
-  const login = async () => {
+  const login = async (role) => {
     try {
       if (window?.ethereum?.isMetaMask) {
         // Desktop browser
@@ -14,7 +14,12 @@ const Login = ({ addAddress }) => {
         });
 
         const account = Web3.utils.toChecksumAddress(accounts[0]);
+
+        // Call SC to get the user's details - user's role
+        // var role will contain either charity or donor
+        console.log(role);
         addAddress(account);
+
         console.log("account", account);
       }
     } catch (error) {
@@ -25,10 +30,22 @@ const Login = ({ addAddress }) => {
   return (
     <Box sx={{ background: "#1F2937" }} height="100vh" width="100vw">
       <Box sx={{ position: "absolute", top: "10px", right: "10px" }}>
-        <Button onClick={() => login()}>Login</Button>
+        <Button
+          onClick={() => login("donor")}
+          sx={{ color: "#319795", ml: "5px" }}
+        >
+          Login as Donor
+        </Button>
+        <Button
+          onClick={() => login("charity")}
+          sx={{ color: "#319795", ml: "5px" }}
+        >
+          Login as Charity
+        </Button>
+
         <Button
           variant="contained"
-          sx={{ background: "#319795", ml: "5px" }}
+          sx={{ background: "#319795", ml: "10px" }}
           onClick={() => navigate("/signup")}
         >
           Signup
