@@ -21,7 +21,7 @@ const defaultProps = {
   bottomOuterDivider: false,
   bottomDivider: false
 }
-
+ 
 const Header = ({
   className,
   navPosition,
@@ -72,7 +72,6 @@ const Header = ({
 
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const onPressConnect = async () => {
     setLoading(true);
 
@@ -85,7 +84,6 @@ const Header = ({
 
         const account = Web3.utils.toChecksumAddress(accounts[0]);
         setAddress(account);
-        setIsSubmitted(true);
       }
     } catch (error) {
       console.log(error);
@@ -95,7 +93,6 @@ const Header = ({
   };
 
   const onPressLogout = () => setAddress("");
-
 
   const classes = classNames(
     'site-header',

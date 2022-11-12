@@ -4,6 +4,8 @@ import { SectionProps } from '../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
 import dog from '../../assets/images/dog.jpeg';
+import getWeb3 from "web3";
+import Cryptonate from "../../Cryptonate.json";
 
 const propTypes = {
   ...SectionProps.types
@@ -12,6 +14,15 @@ const propTypes = {
 const defaultProps = {
   ...SectionProps.defaults
 }
+
+const onDonate = async () => {
+    const web3 = await getWeb3();
+      const accounts = await web3.eth.getAccounts();
+      const networkID = await web3.eth.net.getID();
+      const deployedNetwork = Cryptonate.networks[networkID];
+      const instance = new web3.eth.Contract(Cryptonate.abi, deployedNetwork && deployedNetwork.address)
+      instance.methods.registerDonations(accounts[0],2).send({from: accounts[1],value: 20});
+  };
 
 const Hero = ({
   className,
@@ -55,12 +66,12 @@ const Hero = ({
                 Your generous donation can give helpless animals a new life. Donate to animal charities NOW !
                 </p>
               <div className="reveal-from-bottom" data-reveal-delay="600">
-                <ButtonGroup>
-                  <Button tag="a" color="primary">
+                {/* <ButtonGroup> */}
+                  <button tag="a" color="primary" onClick={onDonate()}>
                     Donate
-                    </Button>
+                    </button>
                   
-                </ButtonGroup>
+                {/* </ButtonGroup> */}
                 <div>
                 <img src={dog} alt="dog"/>
                 </div>
