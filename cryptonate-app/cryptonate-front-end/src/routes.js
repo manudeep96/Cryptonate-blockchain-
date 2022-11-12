@@ -3,16 +3,10 @@ import ChooseCharity from "./views/ChooseCharity";
 import Donate from "./views/Donate";
 import RecentActivity from "./views/RecentActivity";
 import RequestFunds from "./views/RequestFunds";
-import Login from "./views/Login"
+import LandingPage from "./views/LandingPage";
+import SignupPage from "./views/SignupPage";
 
 export const privateRoutes = [
-  {
-    name: "Login",
-    element: Login,
-    path: "/login",
-    sideBar: true,
-    userType: ["donor", "charity"],
-  },
   {
     name: "All Polls",
     element: AllPolls,
@@ -47,6 +41,21 @@ export const privateRoutes = [
     path: "/requestfunds",
     sideBar: true,
     userType: ["charity"],
+  },
+];
+
+export const publicRoutes = [
+  {
+    name: "Signup Page",
+    element: SignupPage,
+    path: "/signup",
+    sideBar: false,
+  },
+  {
+    name: "Landing page",
+    element: LandingPage,
+    path: "/",
+    sidebar: false,
   },
 ];
 
