@@ -1,8 +1,10 @@
 import Web3 from "web3";
 
 import { Box, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ addAddress }) => {
+  const navigate = useNavigate();
   const login = async () => {
     try {
       if (window?.ethereum?.isMetaMask) {
@@ -12,7 +14,6 @@ const Login = ({ addAddress }) => {
         });
 
         const account = Web3.utils.toChecksumAddress(accounts[0]);
-        sessionStorage.setItem("address", account);
         addAddress(account);
         console.log("account", account);
       }
@@ -25,7 +26,11 @@ const Login = ({ addAddress }) => {
     <Box sx={{ background: "#1F2937" }} height="100vh" width="100vw">
       <Box sx={{ position: "absolute", top: "10px", right: "10px" }}>
         <Button onClick={() => login()}>Login</Button>
-        <Button variant="contained" sx={{ background: "#319795", ml: "5px" }}>
+        <Button
+          variant="contained"
+          sx={{ background: "#319795", ml: "5px" }}
+          onClick={() => navigate("/signup")}
+        >
           Signup
         </Button>
       </Box>
