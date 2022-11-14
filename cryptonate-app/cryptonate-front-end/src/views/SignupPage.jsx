@@ -20,9 +20,8 @@ const LandingPage = () => {
 
   const signup = async () => {
     let provider = window.ethereum;
-    let selectedAccount;
     const accounts = await provider.request({ method: "eth_requestAccounts" });
-    selectedAccount = accounts[0];
+    const selectedAccount = accounts[0];
     let sent;
     if (signupAsCharity) {
       sent = await cryptonateSC.methods
