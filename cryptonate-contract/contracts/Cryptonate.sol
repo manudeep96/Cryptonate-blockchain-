@@ -55,9 +55,9 @@ contract Cryptonate {
     }
 
     // Register a donor
-    function registerDonor(address donorAddress) public {
-        Donor storage d = allDonors[donorAddress];
-        d._donor = donorAddress;
+    function registerDonor() public {
+        Donor storage d = allDonors[msg.sender];
+        d._donor = msg.sender;
     }
 
     function registerDonation(address charityAddress, uint256 amount)

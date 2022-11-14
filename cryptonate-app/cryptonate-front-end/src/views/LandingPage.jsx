@@ -12,44 +12,36 @@ const Login = ({ addAddress }) => {
       let provider = window.ethereum;
       let selectedAccount;
       if (typeof provider !== "undefined") {
-        provider.request({ method: "eth_requestAccounts" }).then((accounts) => {
-          selectedAccount = accounts[0];
-          console.log(`Selected account is ${selectedAccount}`);
-          console.log(role);
-
-          if (role === "donor") {
-            const res = cryptonateSC.methods
-              .checkValidDonor(selectedAccount)
-              .call({ from: selectedAccount });
-
-            const printAddress = async () => {
-              const a = await res;
-              console.log(a);
-              if (a === true) {
-                console.log("Successfully logged in !");
-              } else {
-                console.log("Not registered as Donor");
-              }
-            };
-
-            printAddress();
-          } else {
-            const res = cryptonateSC.methods
-              .checkValidCharity(selectedAccount)
-              .call({ from: selectedAccount });
-            const printAddress = async () => {
-              const a = await res;
-              console.log(a);
-              if (a === true) {
-                console.log("Successfully logged in !");
-              } else {
-                console.log("Not registered as Charity");
-              }
-            };
-
-            printAddress();
-          }
+        const accounts = await provider.request({
+          method: "eth_requestAccounts",
         });
+        selectedAccount = accounts[0];
+        console.log(`Selected account is ${selectedAccount}`);
+        console.log(role);
+
+        if (role === "donor") {
+          const res = await cryptonateSC.methods
+            .checkValidDonor(selectedAccount)
+            .call({ from: selectedAccount });
+
+          if (res === true) {
+            console.log("Successfully logged in !");
+            addAddress(selectedAccount, role);
+          } else {
+            console.log("Not registered as Donor");
+          }
+        } else {
+          const res = await cryptonateSC.methods
+            .checkValidCharity(selectedAccount)
+            .call({ from: selectedAccount });
+
+          if (res === true) {
+            console.log("Successfully logged in !");
+            addAddress(selectedAccount, role);
+          } else {
+            console.log("Not registered as Charity");
+          }
+        }
       }
     } catch (error) {
       console.log(error);

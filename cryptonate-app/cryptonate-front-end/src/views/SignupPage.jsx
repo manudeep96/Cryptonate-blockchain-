@@ -30,7 +30,7 @@ const LandingPage = () => {
         .send({ from: selectedAccount });
     } else {
       sent = await cryptonateSC.methods
-        .registerDonor(name)
+        .registerDonor()
         .send({ from: selectedAccount });
     }
 

@@ -1,6 +1,6 @@
 import web3 from "./web3";
 
-const address = "0xf375bc046ddd4b45aedd6dc87c4f35ecf950d687";
+const address = "0x4bbA7304103A293529234C4fa8D8a32f0aefaD64";
 
 const abi = [
   {
@@ -22,13 +22,7 @@ const abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "donorAddress",
-        type: "address",
-      },
-    ],
+    inputs: [],
     name: "registerDonor",
     outputs: [],
     stateMutability: "nonpayable",
