@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useNavigate } from "react-router-dom";
-import Web3 from "web3";
 import cryptonateSC from "../cryptonate";
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -19,33 +18,25 @@ const LandingPage = () => {
   const [description, setDescription] = useState("");
   // const [accounts, setAccount] = useState('');
 
-  // Displays a prompt for the user to select which accounts to connect
-  async function requestAccount() {
-    await window.ethereum.request({ method: "eth_requestAccounts" });
-    // setAccount(account[0]);
-  }
-
   const signup = async () => {
-    console.log("Signing up");
-    // Call sc
-    requestAccount();
-
     let provider = window.ethereum;
     let selectedAccount;
-    provider.request({ method: "eth_requestAccounts" }).then((accounts) => {
-      selectedAccount = accounts[0];
-      const sent = signupAsCharity
-        ? cryptonateSC.methods
-            .registerCharity("asdf", "desc")
-            .send({ from: selectedAccount })
-        : cryptonateSC.methods
-            .registerDonor(selectedAccount)
-            .send({ from: selectedAccount });
-      console.log("yesss", sent);
-      console.log("account", name);
-      // Take the user to landing page again
-      navigate("/");
-    });
+    const accounts = await provider.request({ method: "eth_requestAccounts" });
+    selectedAccount = accounts[0];
+    let sent;
+    if (signupAsCharity) {
+      sent = await cryptonateSC.methods
+        .registerCharity(name, description)
+        .send({ from: selectedAccount });
+    } else {
+      sent = await cryptonateSC.methods
+        .registerDonor(name)
+        .send({ from: selectedAccount });
+    }
+
+    console.log("sent", sent);
+    // Take the user to landing page again
+    navigate("/");
   };
 
   const handleCheckboxChange = (e) => {
