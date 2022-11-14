@@ -11,22 +11,20 @@ import {
 import { Stack } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import Web3 from "web3";
-import NFTContractBuild from './Cryptonate.json';
-
+import cryptonateSC from "../cryptonate";
 const LandingPage = () => {
-    const navigate = useNavigate();
-    const [signupAsCharity, setSignupAsCharity] = useState(false);
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    // const [accounts, setAccount] = useState('');
-    
-    
-    // Displays a prompt for the user to select which accounts to connect
-    async function requestAccount() {
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-      // setAccount(account[0]);
-    }
-  
+  const navigate = useNavigate();
+  const [signupAsCharity, setSignupAsCharity] = useState(false);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  // const [accounts, setAccount] = useState('');
+
+  // Displays a prompt for the user to select which accounts to connect
+  async function requestAccount() {
+    await window.ethereum.request({ method: "eth_requestAccounts" });
+    // setAccount(account[0]);
+  }
+
   const signup = async () => {
     console.log("Signing up");
     // Call sc
@@ -34,18 +32,20 @@ const LandingPage = () => {
 
     let provider = window.ethereum;
     let selectedAccount;
-    provider
-        .request({method: 'eth_requestAccounts' })
-        .then((accounts) => {
-          selectedAccount = accounts[0];
-          const web3 = new Web3(provider);
-          const nftContract = new web3.eth.Contract(NFTContractBuild.abi,'0xc703115d295A4CA319E8FeCc3f8d107cCb2e0F1A');
-          const sent = signupAsCharity ? nftContract.methods.registerCharity(selectedAccount).send({from: selectedAccount}) : nftContract.methods.registerDonor(selectedAccount).send({from: selectedAccount}) ;
-          console.log("yesss",sent);
-          console.log("account", name);
-          // Take the user to landing page again
-          navigate("/");
-        });
+    provider.request({ method: "eth_requestAccounts" }).then((accounts) => {
+      selectedAccount = accounts[0];
+      const sent = signupAsCharity
+        ? cryptonateSC.methods
+            .registerCharity("asdf", "desc")
+            .send({ from: selectedAccount })
+        : cryptonateSC.methods
+            .registerDonor(selectedAccount)
+            .send({ from: selectedAccount });
+      console.log("yesss", sent);
+      console.log("account", name);
+      // Take the user to landing page again
+      navigate("/");
+    });
   };
 
   const handleCheckboxChange = (e) => {

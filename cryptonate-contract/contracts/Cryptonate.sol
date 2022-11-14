@@ -107,4 +107,20 @@ contract Cryptonate {
             c.polls[pollId].disapproved++;
         }
     }
+
+    function checkValidDonor(address key) public view returns (bool) {
+        if (allDonors[key]._donor == key) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function checkValidCharity(address key) public view returns (bool) {
+        if (allCharities[key]._charity == key) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

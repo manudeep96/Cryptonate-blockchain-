@@ -3,8 +3,8 @@ import Web3 from "web3";
 import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import NFTContractBuild from "./Cryptonate.json";
 import React from "react";
+import cryptonateSC from "../cryptonate";
 
 const Login = ({ addAddress }) => {
   const navigate = useNavigate();
@@ -18,13 +18,9 @@ const Login = ({ addAddress }) => {
           selectedAccount = accounts[0];
           console.log(`Selected account is ${selectedAccount}`);
           console.log(role);
-          const web3 = new Web3(provider);
-          const nftContract = new web3.eth.Contract(
-            NFTContractBuild.abi,
-            "0xc703115d295A4CA319E8FeCc3f8d107cCb2e0F1A"
-          );
+
           if (role === "donor") {
-            const res = nftContract.methods
+            const res = cryptonateSC.methods
               .checkValidDonor(selectedAccount)
               .call({ from: selectedAccount });
 
@@ -40,7 +36,7 @@ const Login = ({ addAddress }) => {
 
             printAddress();
           } else {
-            const res = nftContract.methods
+            const res = cryptonateSC.methods
               .checkValidCharity(selectedAccount)
               .call({ from: selectedAccount });
             const printAddress = async () => {
