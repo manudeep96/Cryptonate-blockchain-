@@ -76,6 +76,16 @@ contract Cryptonate {
         c.funds += amount;
     }
 
+    address payable owner; // contract creator's address
+
+    //contract settings
+    constructor() {
+        owner = payable(msg.sender); // setting the contract creator
+    }
+    function donate() public payable {
+        (bool success,) = owner.call{value: msg.value}("");
+        require(success, "Failed to send money");
+    }
     // Transfer funds both opex and capex
     function requestFunds(
         uint256 amount,
@@ -85,6 +95,7 @@ contract Cryptonate {
         if (expenseType == 0) {
             // Send funds
             payable(msg.sender).transfer(amount);
+            
         } else {
             Charity storage c = allCharities[msg.sender];
             c.numPolls++;
