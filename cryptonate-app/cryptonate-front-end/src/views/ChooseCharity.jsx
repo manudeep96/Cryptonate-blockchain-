@@ -1,11 +1,11 @@
 import { Box, Typography, Paper } from "@mui/material";
 import { Stack } from "@mui/system";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const ChooseCharity = () => {
+const ChooseCharity = ({ addCharityAddress }) => {
   const navigate = useNavigate();
   const chooseCharity = () => {
-    console.log("calling smart contract");
+    addCharityAddress(1);
     navigate("/");
   };
 

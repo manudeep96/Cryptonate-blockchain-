@@ -27,6 +27,9 @@ function Layout() {
   const [userType, setUserType] = useState(() =>
     sessionStorage.getItem("role")
   );
+  const [charityAddress, setCharityAddress] = useState(() => {
+    sessionStorage.getItem("charAdd");
+  });
 
   useEffect(() => {
     if (noSidebarPages.includes(location.pathname)) {
@@ -46,6 +49,12 @@ function Layout() {
     setAuthnticated(true);
     setUserType(role);
     role === "donor" && navigate("/choosecharity");
+  };
+
+  const addCharityAddress = (address) => {
+    address = "0x6bCcB5c4006c624c71F15330Ac852c4f9Ae40570";
+    sessionStorage.setItem("charAdd", address);
+    setCharityAddress(address);
   };
 
   const logout = () => {
@@ -109,7 +118,12 @@ function Layout() {
                 <Route
                   path={route.path}
                   element={
-                    <route.element userType={userType} address={address} />
+                    <route.element
+                      userType={userType}
+                      address={address}
+                      addCharityAddress={addCharityAddress}
+                      charityAddress={charityAddress}
+                    />
                   }
                 />
               ))}
