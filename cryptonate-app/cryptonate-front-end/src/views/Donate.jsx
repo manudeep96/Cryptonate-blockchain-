@@ -1,16 +1,43 @@
-import { Grid, Typography } from "@mui/material";
+import { Typography, Box, TextField, Button } from "@mui/material";
+import { Stack } from "@mui/system";
+import { useState, useEffect } from "react";
 import PageHeading from "../common/PageHeading";
-const Donate = () => {
+
+const RequestFunds = () => {
+  const [amount, setAmount] = useState("");
+
+  const requestFunds = (amount) => {
+    console.log("Calling smartcontract ");
+  };
+
   return (
-    <Grid container>
-      <Grid item>
-        <PageHeading
-          title="Donate"
-          subtitle="All donations made to and money withdrawn from the smart contract"
+    <Box>
+      <PageHeading title="Donate" subtitle="Donate money to the charity" />
+      <Stack spacing={4} width="500px">
+        <TextField
+          id="outlined-basic"
+          label="Amount (USD)"
+          variant="outlined"
+          fullWidth
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
         />
-      </Grid>
-    </Grid>
+        <Box>
+          <Button
+            color="success"
+            variant="contained"
+            sx={{ marginRight: 2 }}
+            onClick={() => requestFunds(amount)}
+          >
+            Donate
+          </Button>
+          <Button color="info" onClick={() => setAmount("")}>
+            Cancel
+          </Button>
+        </Box>
+      </Stack>
+    </Box>
   );
 };
 
-export default Donate;
+export default RequestFunds;

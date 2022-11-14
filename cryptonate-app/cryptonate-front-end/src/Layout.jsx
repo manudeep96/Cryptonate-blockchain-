@@ -16,7 +16,7 @@ import ListItemText from "@mui/material/ListItemText";
 function Layout() {
   let location = useLocation();
   let [showSidebar, setShowsidebar] = useState(true);
-  const noSidebarPages = ["/login", "/"];
+  const noSidebarPages = ["/login", "/", "/choosecharity"];
   const navigate = useNavigate();
   const [authenticated, setAuthnticated] = useState(() =>
     sessionStorage.getItem("address") ? true : false
@@ -24,7 +24,7 @@ function Layout() {
   const [address, setAddress] = useState(() =>
     sessionStorage.getItem("address")
   );
-  let userType = "charity";
+  const [userType, setUserType] = useState("");
 
   useEffect(() => {
     console.log(location.pathname);
@@ -36,10 +36,12 @@ function Layout() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
-  const addAddress = (address) => {
+  const addAddress = (address, role) => {
     setAddress(address);
     sessionStorage.setItem("address", address);
     setAuthnticated(true);
+    setUserType(role);
+    role === "donor" && navigate("/choosecharity");
   };
 
   const logout = () => {
@@ -88,7 +90,12 @@ function Layout() {
           )}
           <Box component="main" sx={{ p: 4 }}>
             <Button
-              sx={{ position: "absolute", top: "5px", right: "10px" }}
+              sx={{
+                position: "absolute",
+                top: "5px",
+                right: "10px",
+                zIndex: 5,
+              }}
               onClick={() => logout()}
             >
               Logout

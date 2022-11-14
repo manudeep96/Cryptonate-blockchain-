@@ -18,7 +18,7 @@ const Login = ({ addAddress }) => {
         // Call SC to get the user's details - user's role
         // var role will contain either charity or donor
         console.log(role);
-        addAddress(account);
+        addAddress(account, role);
 
         console.log("account", account);
       }
