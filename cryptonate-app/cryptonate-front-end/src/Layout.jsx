@@ -24,21 +24,25 @@ function Layout() {
   const [address, setAddress] = useState(() =>
     sessionStorage.getItem("address")
   );
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState(() =>
+    sessionStorage.getItem("role")
+  );
 
   useEffect(() => {
-    console.log(location.pathname);
     if (noSidebarPages.includes(location.pathname)) {
       setShowsidebar(false);
+      console.log("Not going to add sidebar", location.pathname);
     } else {
       setShowsidebar(true);
+      console.log("added sidebar", location.pathname);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   const addAddress = (address, role) => {
-    setAddress(address);
     sessionStorage.setItem("address", address);
+    sessionStorage.setItem("role", role);
+    setAddress(address);
     setAuthnticated(true);
     setUserType(role);
     role === "donor" && navigate("/choosecharity");
@@ -102,7 +106,12 @@ function Layout() {
             </Button>
             <Routes>
               {privateRoutes.map((route) => (
-                <Route path={route.path} element={<route.element />} />
+                <Route
+                  path={route.path}
+                  element={
+                    <route.element userType={userType} address={address} />
+                  }
+                />
               ))}
               <Route path="*" element={<Navigate to="/allpolls" />} />
             </Routes>
