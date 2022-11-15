@@ -1,6 +1,6 @@
 import web3 from "./web3";
 
-const address = "0xA5B156EC111c362cf615993b5110f00fB61eB287";
+const address = "0xBeBb0E0dcd978a6f62e72F7f537Ce77F4C2b6Fee";
 
 const abi = [
   {
@@ -80,13 +80,13 @@ const abi = [
       },
       {
         internalType: "address payable",
-        name: "charity",
+        name: "charityAddress",
         type: "address",
       },
       {
-        internalType: "int256",
+        internalType: "uint256",
         name: "voteType",
-        type: "int256",
+        type: "uint256",
       },
     ],
     name: "vote",
