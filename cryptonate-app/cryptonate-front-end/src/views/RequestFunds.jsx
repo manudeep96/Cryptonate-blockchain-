@@ -27,8 +27,8 @@ const RequestFunds = () => {
       let sent;
       // await cryptonateSC.methods.donate().send({from: selectedAccount,value:10});
       sent = await cryptonateSC.methods
-          .requestFunds(5,0,'fdsfs')
-          .send({ from: selectedAccount});
+          .requestFunds(1,0,'fdsfs')
+          .send({ from: selectedAccount,value:1});
       console.log('Called SC method')
       
     }

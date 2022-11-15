@@ -24,10 +24,13 @@ contract Cryptonate {
 
     // Hold details of all charities
     mapping(address => Charity) allCharities;
-
+    
+    address[] allCharityList;
     // Hold details of a donor
     struct Donor {
         address _donor;
+        address[] donatedCharities;
+        address[] otherCharities;
         mapping(address => bool) charities;
     }
 
@@ -52,6 +55,7 @@ contract Cryptonate {
         c.description = description;
         c.funds = 0;
         c.numPolls = 0;
+        allCharityList.push(msg.sender);
     }
 
     // Register a donor
@@ -70,28 +74,20 @@ contract Cryptonate {
         Donor storage d = allDonors[msg.sender];
         // This is to check if the donor should be allowed to respond to a poll by this charity
         d.charities[charityAddress] = true;
-
+        d.donatedCharities.push(charityAddress);
+        
         // Add amount to charity's purse
         Charity storage c = allCharities[charityAddress];
         c.funds += amount;
     }
 
-    address payable owner; // contract creator's address
-
-    //contract settings
-    constructor() {
-        owner = payable(msg.sender); // setting the contract creator
-    }
-    function donate() public payable {
-        (bool success,) = owner.call{value: msg.value}("");
-        require(success, "Failed to send money");
-    }
+    
     // Transfer funds both opex and capex
     function requestFunds(
         uint256 amount,
         uint256 expenseType,
         string calldata description
-    ) public payable validateRequest(msg.sender, amount) {
+    ) public payable {
         if (expenseType == 0) {
             // Send funds
             payable(msg.sender).transfer(amount);
@@ -134,4 +130,30 @@ contract Cryptonate {
             return false;
         }
     }
+
+    string[] nameDonated;
+    string[] descDonated;
+    
+    function getDonatedCharities() public returns (address[] memory,string[] memory,string[] memory) {
+        
+
+        for(uint i=0;i<allDonors[msg.sender].donatedCharities.length;i++){
+            nameDonated.push(allCharities[allDonors[msg.sender].donatedCharities[i]].name);
+            descDonated.push(allCharities[allDonors[msg.sender].donatedCharities[i]].description);
+        }
+        return(allDonors[msg.sender].donatedCharities,nameDonated,descDonated);
+    }
+
+    string[] nameAll;
+    string[] descAll;
+    function getAllCharities() public returns (address[] memory,string[] memory,string[] memory) {
+        
+
+        for(uint i=0;i<allCharityList.length;i++){
+            nameAll.push(allCharities[allCharityList[i]].name);
+            descAll.push(allCharities[allCharityList[i]].description);
+        }
+        return(allDonors[msg.sender].donatedCharities,nameAll,descAll);
+    }
+    
 }
