@@ -48,7 +48,7 @@ const ChooseCharity = ({ addCharityAddress }) => {
       <Typography variant="subtitle1" gutterBottom>
         Explore new charities
       </Typography>
-      <Stack spacing={4}>
+      {/* <Stack spacing={4}>
         <Paper
           onClick={() => chooseCharity()}
           sx={{
@@ -64,7 +64,7 @@ const ChooseCharity = ({ addCharityAddress }) => {
           <Typography variant="h5">Humans for Animals</Typography>
           <Typography variant="subtitle1">Humans for Animals</Typography>
         </Paper>
-      </Stack>
+      </Stack> */}
     </Box>
   );
 };
