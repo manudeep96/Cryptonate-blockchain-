@@ -25,9 +25,9 @@ const ChooseCharity = ({ addCharityAddress }) => {
       <Typography variant="h3" gutterBottom>
         Choose a charity
       </Typography>
-      <Typography variant="subtitle1" gutterBottom>
+      {/* <Typography variant="subtitle1" gutterBottom>
         Previously donated
-      </Typography>
+      </Typography> */}
       <Stack spacing={4} sx={{ marginBottom: 5 }}>
         <Paper
           onClick={() => chooseCharity()}
@@ -45,9 +45,9 @@ const ChooseCharity = ({ addCharityAddress }) => {
           <Typography variant="subtitle1">Bringing joy to animals</Typography>
         </Paper>
       </Stack>
-      <Typography variant="subtitle1" gutterBottom>
+      {/* <Typography variant="subtitle1" gutterBottom>
         Explore new charities
-      </Typography>
+      </Typography> */}
       {/* <Stack spacing={4}>
         <Paper
           onClick={() => chooseCharity()}

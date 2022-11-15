@@ -11,6 +11,7 @@ contract Cryptonate {
         uint256 approved;
         uint256 disapproved;
         uint256 state;
+        uint256 amount;
     }
 
     // Hold details of a single charity
@@ -99,17 +100,18 @@ contract Cryptonate {
             c.polls[c.numPolls].approved = 0;
             c.polls[c.numPolls].disapproved = 0;
             c.polls[c.numPolls].state = 0;
+            c.polls[c.numPolls].amount = amount;
             c.numPolls++;
         }
     }
 
     function vote(
         uint256 pollId,
-        address payable charity,
-        int256 voteType
+        address payable charityAddress,
+        uint256 voteType
     ) public {
         // Add user's vote
-        Charity storage c = allCharities[charity];
+        Charity storage c = allCharities[charityAddress];
         if (voteType == 1) {
             c.polls[pollId].approved++;
         } else {
@@ -120,6 +122,9 @@ contract Cryptonate {
             c.numDonors
         ) {
             c.polls[pollId].state = 1;
+            payable(charityAddress).transfer(
+                c.polls[pollId].amount * 1000000000000000000
+            );
         }
     }
 
