@@ -41,8 +41,8 @@ const ChooseCharity = ({ addCharityAddress }) => {
           }}
           elevation={2}
         >
-          <Typography variant="h5">Humans for Animals</Typography>
-          <Typography variant="subtitle1">Humans for Animals</Typography>
+          <Typography variant="h5">People for Animals</Typography>
+          <Typography variant="subtitle1">Bringing joy to animals</Typography>
         </Paper>
       </Stack>
       <Typography variant="subtitle1" gutterBottom>

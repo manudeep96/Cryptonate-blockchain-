@@ -11,22 +11,19 @@ import cryptonateSC from "../cryptonate";
 const AllPolls = ({ userType, address, charityAddress }) => {
   const [polls, setPolls] = useState([]);
 
-  const vote = async (id, voteType) => {
-    console.log("DISAPPREVEDDDDD");
+  const v = async (pollId, voteType) => {
     try {
       let provider = window.ethereum;
-      let selectedAccount;
-      if (typeof provider !== "undefined") {
-        const accounts = await provider.request({
-          method: "eth_requestAccounts",
-        });
-        selectedAccount = accounts[0];
 
-        const res = await cryptonateSC.methods
-          .vote(id, charityAddress, voteType)
-          .call({ from: selectedAccount });
-        console.log("RESPONSE", res);
-      }
+      const accounts = await provider.request({
+        method: "eth_requestAccounts",
+      });
+      const selectedAccount = accounts[0];
+
+      let res = await cryptonateSC.methods
+        .vote(pollId, charityAddress, voteType)
+        .send({ from: selectedAccount });
+      console.log("RESPONSE", res);
     } catch (error) {
       console.log("Error", error);
     }
@@ -43,7 +40,7 @@ const AllPolls = ({ userType, address, charityAddress }) => {
         let dis = res[1][i] + 0;
         let status;
         if (app + dis > 0) {
-          status = `Approved by ${app / (app + dis)}`;
+          status = `Approved by ${(app / (app + dis)) * 10000}%`;
         } else {
           status = "Voting in progress";
         }
@@ -110,14 +107,14 @@ const AllPolls = ({ userType, address, charityAddress }) => {
                     <Button
                       variant="contained"
                       color="success"
-                      onClick={() => console.log("VOTEDDDDD")}
+                      onClick={() => v(poll.id, 1)}
                     >
                       Approve
                     </Button>
                     <Button
                       variant="contained"
                       color="error"
-                      onClick={() => vote(poll.id, 0)}
+                      onClick={() => v(poll.id, 0)}
                     >
                       Disapprove
                     </Button>

@@ -17,8 +17,8 @@ const RequestFunds = () => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
 
-  const requestFunds = async (amount, description, expenseType) => {
-    let et = expenseType === "Opex" ? 0 : 1;
+  const rf = async (amount, description, expenseType) => {
+    let et = expenseType === "opex" ? 0 : 1;
     try {
       console.log("Calling smartcontract ");
       let provider = window.ethereum;
@@ -27,7 +27,7 @@ const RequestFunds = () => {
       });
       const selectedAccount = accounts[0];
       let res = await cryptonateSC.methods
-        .requestFunds(amount + "", et, description)
+        .requestFunds(amount, et, description)
         .send({
           from: selectedAccount,
         });
@@ -84,7 +84,7 @@ const RequestFunds = () => {
             color="success"
             variant="contained"
             sx={{ marginRight: 2 }}
-            onClick={() => requestFunds(amount + 0, description, expenseType)}
+            onClick={() => rf(amount, description, expenseType)}
           >
             Request
           </Button>
