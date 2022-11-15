@@ -143,11 +143,69 @@ const abi =  [
         "type": "bool"
       }
     ],
+<<<<<<< HEAD
     "stateMutability": "view",
     "type": "function",
     "constant": true
   }
 ]
+=======
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "charityAddress",
+        type: "address",
+      },
+    ],
+    name: "getPolls",
+    outputs: [
+      {
+        internalType: "uint256[10]",
+        name: "",
+        type: "uint256[10]",
+      },
+      {
+        internalType: "uint256[10]",
+        name: "",
+        type: "uint256[10]",
+      },
+      {
+        internalType: "string[10]",
+        name: "",
+        type: "string[10]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "charityAddress",
+        type: "address",
+      },
+    ],
+    name: "getNumPolls",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+];
+>>>>>>> bc4ab9b475b81936cf91bb92035de31044083139
 
 // @ts-ignore
 export default new web3.eth.Contract(abi, address);

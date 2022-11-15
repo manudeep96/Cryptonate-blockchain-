@@ -13,24 +13,27 @@ import PageHeading from "../common/PageHeading";
 import cryptonateSC from "../cryptonate";
 
 const RequestFunds = () => {
-  const [expenseType, setExpenseType] = useState("Opex");
+  const [expenseType, setExpenseType] = useState("opex");
   const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
 
-  const requestFunds = async (description, expenseType) => {
-    console.log("Calling smartcontract ");
-    if(expenseType === 'opex'){
+  const requestFunds = async (amount, description, expenseType) => {
+    let et = expenseType === "Opex" ? 0 : 1;
+    try {
+      console.log("Calling smartcontract ");
       let provider = window.ethereum;
-      let selectedAccount;
-      const accounts =  await provider.request({ method: "eth_requestAccounts" });
-      selectedAccount = accounts[0];
-      console.log(selectedAccount)
-      let sent;
-      // await cryptonateSC.methods.donate().send({from: selectedAccount,value:10});
-      sent = await cryptonateSC.methods
-          .requestFunds(1,0,'fdsfs')
-          .send({ from: selectedAccount,value:1});
-      console.log('Called SC method')
-      
+      const accounts = await provider.request({
+        method: "eth_requestAccounts",
+      });
+      const selectedAccount = accounts[0];
+      let res = await cryptonateSC.methods
+        .requestFunds(amount + "", et, description)
+        .send({
+          from: selectedAccount,
+        });
+      console.log("Request successful", res);
+    } catch (error) {
+      console.log("Error", error);
     }
   };
 
@@ -68,12 +71,20 @@ const RequestFunds = () => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        <TextField
+          id="outlined-basic"
+          label="Amount (ETH)"
+          variant="outlined"
+          fullWidth
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
         <Box>
           <Button
             color="success"
             variant="contained"
             sx={{ marginRight: 2 }}
-            onClick={() => requestFunds(description, expenseType)}
+            onClick={() => requestFunds(amount + 0, description, expenseType)}
           >
             Request
           </Button>

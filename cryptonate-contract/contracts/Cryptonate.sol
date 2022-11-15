@@ -8,8 +8,9 @@ contract Cryptonate {
     struct Poll {
         uint256 pollId;
         string description;
-        int256 approved;
-        int256 disapproved;
+        uint256 approved;
+        uint256 disapproved;
+        uint256 state;
     }
 
     // Hold details of a single charity
@@ -19,6 +20,7 @@ contract Cryptonate {
         string description;
         uint256 funds;
         uint256 numPolls;
+        uint256 numDonors;
         mapping(uint256 => Poll) polls;
     }
 
@@ -54,6 +56,7 @@ contract Cryptonate {
         c.name = name;
         c.description = description;
         c.funds = 0;
+        c.numDonors = 0;
         c.numPolls = 0;
         allCharityList.push(msg.sender);
     }
@@ -72,13 +75,23 @@ contract Cryptonate {
 
         // Add charity to the donor's list
         Donor storage d = allDonors[msg.sender];
+<<<<<<< HEAD
         // This is to check if the donor should be allowed to respond to a poll by this charity
         d.charities[charityAddress] = true;
         d.donatedCharities.push(charityAddress);
         
+=======
+
+>>>>>>> bc4ab9b475b81936cf91bb92035de31044083139
         // Add amount to charity's purse
         Charity storage c = allCharities[charityAddress];
         c.funds += amount;
+
+        // This is to check if the donor should be allowed to respond to a poll by this charity
+        if (d.charities[charityAddress] == false) {
+            d.charities[charityAddress] = true;
+            c.numDonors += 1;
+        }
     }
 
     
@@ -90,14 +103,20 @@ contract Cryptonate {
     ) public payable {
         if (expenseType == 0) {
             // Send funds
+<<<<<<< HEAD
             payable(msg.sender).transfer(amount);
             
+=======
+            payable(msg.sender).transfer(amount * 1000000000000000000);
+>>>>>>> bc4ab9b475b81936cf91bb92035de31044083139
         } else {
             Charity storage c = allCharities[msg.sender];
+            c.polls[c.numPolls].pollId = c.numPolls;
+            c.polls[c.numPolls].description = description;
+            c.polls[c.numPolls].approved = 0;
+            c.polls[c.numPolls].disapproved = 0;
+            c.polls[c.numPolls].state = 0;
             c.numPolls++;
-            Poll storage p = c.polls[c.numPolls];
-            p.pollId = c.numPolls;
-            p.description = description;
         }
     }
 
@@ -112,6 +131,12 @@ contract Cryptonate {
             c.polls[pollId].approved++;
         } else {
             c.polls[pollId].disapproved++;
+        }
+        if (
+            c.polls[pollId].approved + c.polls[pollId].disapproved >=
+            c.numDonors
+        ) {
+            c.polls[pollId].state = 1;
         }
     }
 
@@ -156,4 +181,34 @@ contract Cryptonate {
         return(allDonors[msg.sender].donatedCharities,nameAll,descAll);
     }
     
+    function getPolls(address charityAddress)
+        public
+        view
+        returns (
+            uint256[10] memory,
+            uint256[10] memory,
+            string[10] memory
+        )
+    {
+        Charity storage c = allCharities[charityAddress];
+        uint256[10] memory approved;
+        uint256[10] memory disapproved;
+        string[10] memory descriptions;
+
+        for (uint256 i = 0; i < 10; i++) {
+            if (c.polls[i].state == 0) {
+                approved[i] = 0;
+            } else {
+                approved[i] = c.polls[i].approved;
+                disapproved[i] = c.polls[i].disapproved;
+            }
+            descriptions[i] = c.polls[i].description;
+        }
+        return (approved, disapproved, descriptions);
+    }
+
+    function getNumPolls(address charityAddress) public view returns (uint256) {
+        Charity storage c = allCharities[charityAddress];
+        return c.numPolls;
+    }
 }

@@ -86,7 +86,6 @@ const LandingPage = () => {
           />
           {signupAsCharity && (
             <TextField
-              gutterBottom
               id="outlined-basic"
               label="Description"
               variant="outlined"
