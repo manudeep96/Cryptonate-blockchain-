@@ -1,6 +1,6 @@
 import web3 from "./web3";
 
-const address = "0x4bbA7304103A293529234C4fa8D8a32f0aefaD64";
+const address = "0x7fD68c43d3725115E3dd7EBdCF960db665126b00";
 
 const abi = [
   {
@@ -128,6 +128,56 @@ const abi = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "charityAddress",
+        type: "address",
+      },
+    ],
+    name: "getPolls",
+    outputs: [
+      {
+        internalType: "uint256[10]",
+        name: "",
+        type: "uint256[10]",
+      },
+      {
+        internalType: "uint256[10]",
+        name: "",
+        type: "uint256[10]",
+      },
+      {
+        internalType: "string[10]",
+        name: "",
+        type: "string[10]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "charityAddress",
+        type: "address",
+      },
+    ],
+    name: "getNumPolls",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",

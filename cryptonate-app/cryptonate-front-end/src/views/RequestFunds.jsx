@@ -10,13 +10,31 @@ import {
 import { Stack } from "@mui/system";
 import { useState, useEffect } from "react";
 import PageHeading from "../common/PageHeading";
+import cryptonateSC from "../cryptonate";
 
 const RequestFunds = () => {
-  const [expenseType, setExpenseType] = useState("Opex");
+  const [expenseType, setExpenseType] = useState("opex");
   const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
 
-  const requestFunds = (description, expenseType) => {
-    console.log("Calling smartcontract ");
+  const requestFunds = async (amount, description, expenseType) => {
+    let et = expenseType === "Opex" ? 0 : 1;
+    try {
+      console.log("Calling smartcontract ");
+      let provider = window.ethereum;
+      const accounts = await provider.request({
+        method: "eth_requestAccounts",
+      });
+      const selectedAccount = accounts[0];
+      let res = await cryptonateSC.methods
+        .requestFunds(amount + "", et, description)
+        .send({
+          from: selectedAccount,
+        });
+      console.log("Request successful", res);
+    } catch (error) {
+      console.log("Error", error);
+    }
   };
 
   return (
@@ -53,12 +71,20 @@ const RequestFunds = () => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        <TextField
+          id="outlined-basic"
+          label="Amount (ETH)"
+          variant="outlined"
+          fullWidth
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
         <Box>
           <Button
             color="success"
             variant="contained"
             sx={{ marginRight: 2 }}
-            onClick={() => requestFunds(description, expenseType)}
+            onClick={() => requestFunds(amount + 0, description, expenseType)}
           >
             Request
           </Button>
