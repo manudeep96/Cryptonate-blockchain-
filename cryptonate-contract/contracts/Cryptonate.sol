@@ -1,7 +1,22 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.9.0;
 
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
+import "./faunacoin.sol";
+
 contract Cryptonate {
+    ///////////////////////// ALL STORAGE VARIABLES
+    // address fcAddr = 0xd9145CCE52D386f254917e481eB44e9943F39138;
+
+    Faunacoin public fc_ref;
+
+    constructor(Faunacoin faunacoinAddress) {
+        fc_ref = faunacoinAddress;
+    }
+
     address payable cryptonateOwner;
 
     // Holds details of each poll
@@ -37,12 +52,27 @@ contract Cryptonate {
     // Hold all donors
     mapping(address => Donor) allDonors;
 
+    ///////////////////////// MODIFIERS
+
     modifier validateRequest(address sender, uint256 amount) {
         require(
             allCharities[sender].funds > amount,
             "Not enough funds in the purse"
         );
         _;
+    }
+
+    ///////////////////////// INIT FUNCTIONS
+    function getBalance(address donorAddr) public view returns (uint256) {
+        return fc_ref.balanceOf(donorAddr);
+    }
+
+    function mintTokens(address donorAddr, uint256 amount) public {
+        fc_ref.mint(donorAddr, amount);
+    }
+
+    function totalSupply() public view returns (uint256) {
+        return fc_ref.totalSupply();
     }
 
     // Register a charity
@@ -82,9 +112,14 @@ contract Cryptonate {
             d.charities[charityAddress] = true;
             c.numDonors += 1;
         }
+
+        //TODO: Send tokens to the donor
+
+        // Give tokens to the donor
+        mintTokens(msg.sender, amount);
     }
 
-    // Transfer funds both opex and capex
+    // Create a new poll or transfer funds in case of opex
     function requestFunds(
         uint256 amount,
         uint256 expenseType,
@@ -105,6 +140,7 @@ contract Cryptonate {
         }
     }
 
+    // Register donor's vote
     function vote(
         uint256 pollId,
         address payable charityAddress,
@@ -112,14 +148,21 @@ contract Cryptonate {
     ) public {
         // Add user's vote
         Charity storage c = allCharities[charityAddress];
+        // Check if this donor has donated to this charity
+        require(allDonors[msg.sender].charities[charityAddress] == true);
+
+        // TODO: Get the donors token balance to decide the weight of their vote.
+        // TODO: Change
+        uint256 balance = getBalance(msg.sender);
+
         if (voteType == 1) {
-            c.polls[pollId].approved++;
+            c.polls[pollId].approved += balance;
         } else {
-            c.polls[pollId].disapproved++;
+            c.polls[pollId].disapproved += balance;
         }
         if (
             c.polls[pollId].approved + c.polls[pollId].disapproved >=
-            c.numDonors
+            (totalSupply() * 75) / 100
         ) {
             c.polls[pollId].state = 1;
             payable(charityAddress).transfer(
@@ -128,6 +171,7 @@ contract Cryptonate {
         }
     }
 
+    // User login
     function checkValidDonor(address key) public view returns (bool) {
         if (allDonors[key]._donor == key) {
             return true;
@@ -144,6 +188,7 @@ contract Cryptonate {
         }
     }
 
+    // Get last 10 polls of an organization with description, approved and disapproved vote counts
     function getPolls(address charityAddress)
         public
         view
@@ -170,6 +215,7 @@ contract Cryptonate {
         return (approved, disapproved, descriptions);
     }
 
+    // Get the current number of polls of a given organisation
     function getNumPolls(address charityAddress) public view returns (uint256) {
         Charity storage c = allCharities[charityAddress];
         return c.numPolls;
