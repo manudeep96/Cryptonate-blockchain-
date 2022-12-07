@@ -116,7 +116,7 @@ contract Cryptonate {
         //TODO: Send tokens to the donor
 
         // Give tokens to the donor
-        mintTokens(msg.sender, amount);
+        mintTokens(msg.sender, amount / 1000000000000000000);
     }
 
     // Create a new poll or transfer funds in case of opex

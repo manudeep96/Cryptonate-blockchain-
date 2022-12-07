@@ -3,5 +3,5 @@ const Donate = artifacts.require(
 );
 
 module.exports = function (deployer) {
-  deployer.deploy(Donate);
+  deployer.deploy(Donate, "0xe59549A16CE83fdA197e577A29011e7a646D2dda");
 };
