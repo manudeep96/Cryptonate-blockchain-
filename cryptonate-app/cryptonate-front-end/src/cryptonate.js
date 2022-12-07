@@ -1,189 +1,266 @@
 import web3 from "./web3";
 
-const address = "0xBeBb0E0dcd978a6f62e72F7f537Ce77F4C2b6Fee";
+const address = "0xE244d1914D4d30185Dd106c580C37e9731813570";
 
-const abi = [
+const abi =  [
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "string",
-        name: "name",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "description",
-        type: "string",
-      },
+        "internalType": "contract Faunacoin",
+        "name": "faunacoinAddress",
+        "type": "address"
+      }
     ],
-    name: "registerCharity",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "stateMutability": "nonpayable",
+    "type": "constructor"
   },
   {
-    inputs: [],
-    name: "registerDonor",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "inputs": [],
+    "name": "fc_ref",
+    "outputs": [
+      {
+        "internalType": "contract Faunacoin",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "charityAddress",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        "internalType": "address",
+        "name": "donorAddr",
+        "type": "address"
+      }
     ],
-    name: "registerDonation",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-    payable: true,
+    "name": "getBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
+        "internalType": "address",
+        "name": "donorAddr",
+        "type": "address"
       },
       {
-        internalType: "uint256",
-        name: "expenseType",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "description",
-        type: "string",
-      },
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
     ],
-    name: "requestFunds",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-    payable: true,
+    "name": "mintTokens",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [],
+    "name": "totalSupply",
+    "outputs": [
       {
-        internalType: "uint256",
-        name: "pollId",
-        type: "uint256",
-      },
-      {
-        internalType: "address payable",
-        name: "charityAddress",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "voteType",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
-    name: "vote",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "key",
-        type: "address",
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
       },
-    ],
-    name: "checkValidDonor",
-    outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
-    constant: true,
+    "name": "registerCharity",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "key",
-        type: "address",
-      },
-    ],
-    name: "checkValidCharity",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-    constant: true,
+    "inputs": [],
+    "name": "registerDonor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "charityAddress",
-        type: "address",
+        "internalType": "address",
+        "name": "charityAddress",
+        "type": "address"
       },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
     ],
-    name: "getPolls",
-    outputs: [
-      {
-        internalType: "uint256[10]",
-        name: "",
-        type: "uint256[10]",
-      },
-      {
-        internalType: "uint256[10]",
-        name: "",
-        type: "uint256[10]",
-      },
-      {
-        internalType: "string[10]",
-        name: "",
-        type: "string[10]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-    constant: true,
+    "name": "registerDonation",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function",
+    "payable": true
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "charityAddress",
-        type: "address",
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
       },
-    ],
-    name: "getNumPolls",
-    outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "expenseType",
+        "type": "uint256"
       },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
-    constant: true,
+    "name": "requestFunds",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function",
+    "payable": true
   },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "pollId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address payable",
+        "name": "charityAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "voteType",
+        "type": "uint256"
+      }
+    ],
+    "name": "vote",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "key",
+        "type": "address"
+      }
+    ],
+    "name": "checkValidDonor",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "key",
+        "type": "address"
+      }
+    ],
+    "name": "checkValidCharity",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "charityAddress",
+        "type": "address"
+      }
+    ],
+    "name": "getPolls",
+    "outputs": [
+      {
+        "internalType": "uint256[10]",
+        "name": "",
+        "type": "uint256[10]"
+      },
+      {
+        "internalType": "uint256[10]",
+        "name": "",
+        "type": "uint256[10]"
+      },
+      {
+        "internalType": "string[10]",
+        "name": "",
+        "type": "string[10]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "charityAddress",
+        "type": "address"
+      }
+    ],
+    "name": "getNumPolls",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  }
 ];
 
 // @ts-ignore
