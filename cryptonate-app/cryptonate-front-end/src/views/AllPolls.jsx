@@ -33,14 +33,15 @@ const AllPolls = ({ userType, address, charityAddress }) => {
   const constructPolls = (res) => {
     let polls = [];
     for (let i = 0; i < res[0]?.length; i++) {
-      if (res[1][i] !== "") {
+      if (res[2][i] !== "") {
         polls[i] = {};
         polls[i].description = res[2][i];
         polls[i].id = i;
         let app = res[0][i] + 0;
-        let total = res[2] + 0;
+        let dis = res[1][i] + 0;
+        let total = res[3] + 0;
         let status;
-        if (app / total > 75 / 100) {
+        if ((app + dis) / total > 75 / 100) {
           status = `Approved by ${Math.round(app / total) * 100}%`;
         } else {
           status = `Voting in progress, Approved by ${Math.round(

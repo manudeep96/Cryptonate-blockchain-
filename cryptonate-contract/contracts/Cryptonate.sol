@@ -43,6 +43,10 @@ contract Cryptonate {
     // Hold details of all charities
     mapping(address => Charity) allCharities;
 
+    address[10] charityAddresses;
+
+    uint256 charityCount = 0;
+
     // Hold details of a donor
     struct Donor {
         address _donor;
@@ -86,6 +90,9 @@ contract Cryptonate {
         c.funds = 0;
         c.numDonors = 0;
         c.numPolls = 0;
+
+        charityAddresses[charityCount] = payable(msg.sender);
+        charityCount += 1;
     }
 
     // Register a donor
@@ -194,25 +201,47 @@ contract Cryptonate {
         view
         returns (
             uint256[10] memory,
-            // uint256[10] memory,
+            uint256[10] memory,
             string[10] memory,
             uint256
         )
     {
         Charity storage c = allCharities[charityAddress];
         uint256[10] memory approved;
-        // uint256[10] memory disapproved;
+        uint256[10] memory disapproved;
         string[10] memory descriptions;
         uint256 total;
 
         for (uint256 i = 0; i < 10; i++) {
             approved[i] = c.polls[i].approved;
-            // disapproved[i] = c.polls[i].disapproved;
+            disapproved[i] = c.polls[i].disapproved;
             total = totalSupply();
 
             descriptions[i] = c.polls[i].description;
         }
-        return (approved, descriptions, total);
+        return (approved, disapproved, descriptions, total);
+    }
+
+    function getCharities()
+        public
+        view
+        returns (
+            string[10] memory,
+            string[10] memory,
+            address[10] memory
+        )
+    {
+        string[10] memory names;
+        string[10] memory descs;
+        address[10] memory addrs;
+        mapping(address => Charity) storage ac = allCharities;
+        for (uint256 i = 0; i < 10; i++) {
+            names[i] = ac[charityAddresses[i]].name;
+            descs[i] = ac[charityAddresses[i]].description;
+            addrs[i] = charityAddresses[i];
+        }
+
+        return (names, descs, addrs);
     }
 
     // Get the current number of polls of a given organisation

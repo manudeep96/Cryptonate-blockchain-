@@ -1,6 +1,6 @@
 import web3 from "./web3";
 
-const address = "0x176DFe29B6585Bc373Ad682650535e55914D5A9B";
+const address = "0x88E61F0E94Eef1ccB3B0951DeD0Ab1392b94F592";
 
 const abi = [
   {
@@ -227,6 +227,11 @@ const abi = [
         type: "uint256[10]",
       },
       {
+        internalType: "uint256[10]",
+        name: "",
+        type: "uint256[10]",
+      },
+      {
         internalType: "string[10]",
         name: "",
         type: "string[10]",
@@ -235,6 +240,30 @@ const abi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [],
+    name: "getCharities",
+    outputs: [
+      {
+        internalType: "string[10]",
+        name: "",
+        type: "string[10]",
+      },
+      {
+        internalType: "string[10]",
+        name: "",
+        type: "string[10]",
+      },
+      {
+        internalType: "address[10]",
+        name: "",
+        type: "address[10]",
       },
     ],
     stateMutability: "view",

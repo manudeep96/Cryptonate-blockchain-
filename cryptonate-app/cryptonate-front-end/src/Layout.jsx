@@ -52,7 +52,7 @@ function Layout() {
   };
 
   const addCharityAddress = (address) => {
-    address = "0x6bCcB5c4006c624c71F15330Ac852c4f9Ae40570";
+    // address = "0x6bCcB5c4006c624c71F15330Ac852c4f9Ae40570";
     sessionStorage.setItem("charAdd", address);
     setCharityAddress(address);
   };
