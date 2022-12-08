@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 contract Faunacoin is ERC20, Ownable, ERC20Permit, ERC20Votes {
     constructor() ERC20("faunacoin", "fc") ERC20Permit("faunacoin") {}
 
-    function mint(address to, uint256 amount) public onlyOwner {
+    function mint(address to, uint256 amount) public {
         _mint(to, amount);
     }
 
