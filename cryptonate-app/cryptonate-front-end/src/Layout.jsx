@@ -86,20 +86,22 @@ function Layout() {
       {authenticated ? (
         <>
           {showSidebar && (
-            <Drawer
-              sx={{
-                width: "200px",
-                flexShrink: 0,
-                "& .MuiDrawer-paper": {
+            <>
+              <Drawer
+                sx={{
                   width: "200px",
-                  boxSizing: "border-box",
-                },
-              }}
-              variant="permanent"
-              anchor="left"
-            >
-              {drawer}
-            </Drawer>
+                  flexShrink: 0,
+                  "& .MuiDrawer-paper": {
+                    width: "200px",
+                    boxSizing: "border-box",
+                  },
+                }}
+                variant="permanent"
+                anchor="left"
+              >
+                {drawer}
+              </Drawer>
+            </>
           )}
           <Box component="main" sx={{ p: 4 }}>
             <Button

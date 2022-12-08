@@ -194,25 +194,25 @@ contract Cryptonate {
         view
         returns (
             uint256[10] memory,
-            uint256[10] memory,
-            string[10] memory
+            // uint256[10] memory,
+            string[10] memory,
+            uint256
         )
     {
         Charity storage c = allCharities[charityAddress];
         uint256[10] memory approved;
-        uint256[10] memory disapproved;
+        // uint256[10] memory disapproved;
         string[10] memory descriptions;
+        uint256 total;
 
         for (uint256 i = 0; i < 10; i++) {
-            if (c.polls[i].state == 0) {
-                approved[i] = 0;
-            } else {
-                approved[i] = c.polls[i].approved;
-                disapproved[i] = c.polls[i].disapproved;
-            }
+            approved[i] = c.polls[i].approved;
+            // disapproved[i] = c.polls[i].disapproved;
+            total = totalSupply();
+
             descriptions[i] = c.polls[i].description;
         }
-        return (approved, disapproved, descriptions);
+        return (approved, descriptions, total);
     }
 
     // Get the current number of polls of a given organisation
