@@ -8,6 +8,13 @@ import SignupPage from "./views/SignupPage";
 
 export const privateRoutes = [
   {
+    name: "Recent Activity",
+    element: RecentActivity,
+    path: "/recentactivity",
+    sideBar: true,
+    userType: ["charity"],
+  },
+  {
     name: "All Polls",
     element: AllPolls,
     path: "/allpolls",
