@@ -52,7 +52,7 @@ function Layout() {
   };
 
   const addCharityAddress = (address) => {
-    address = "0x6bCcB5c4006c624c71F15330Ac852c4f9Ae40570";
+    // address = "0x6bCcB5c4006c624c71F15330Ac852c4f9Ae40570";
     sessionStorage.setItem("charAdd", address);
     setCharityAddress(address);
   };
@@ -86,20 +86,22 @@ function Layout() {
       {authenticated ? (
         <>
           {showSidebar && (
-            <Drawer
-              sx={{
-                width: "200px",
-                flexShrink: 0,
-                "& .MuiDrawer-paper": {
+            <>
+              <Drawer
+                sx={{
                   width: "200px",
-                  boxSizing: "border-box",
-                },
-              }}
-              variant="permanent"
-              anchor="left"
-            >
-              {drawer}
-            </Drawer>
+                  flexShrink: 0,
+                  "& .MuiDrawer-paper": {
+                    width: "200px",
+                    boxSizing: "border-box",
+                  },
+                }}
+                variant="permanent"
+                anchor="left"
+              >
+                {drawer}
+              </Drawer>
+            </>
           )}
           <Box component="main" sx={{ p: 4 }}>
             <Button

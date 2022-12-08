@@ -10,6 +10,7 @@ import cryptonateSC from "../cryptonate";
 
 const AllPolls = ({ userType, address, charityAddress }) => {
   const [polls, setPolls] = useState([]);
+  const [metaData, setMetaData] = useState([]);
 
   const v = async (pollId, voteType) => {
     try {
@@ -38,11 +39,14 @@ const AllPolls = ({ userType, address, charityAddress }) => {
         polls[i].id = i;
         let app = res[0][i] + 0;
         let dis = res[1][i] + 0;
+        let total = res[3] + 0;
         let status;
-        if (app + dis > 0) {
-          status = `Approved by ${(app / (app + dis)) * 10000}%`;
+        if ((app + dis) / total > 75 / 100) {
+          status = `Approved by ${Math.round(app / total) * 100}%`;
         } else {
-          status = "Voting in progress";
+          status = `Voting in progress, Approved by ${Math.round(
+            (app / total) * 100
+          )}%`;
         }
         polls[i].status = status;
       }
@@ -65,7 +69,12 @@ const AllPolls = ({ userType, address, charityAddress }) => {
           const res = await cryptonateSC.methods
             .getPolls(charityAddress)
             .call({ from: selectedAccount });
-          console.log("RESPONSE", res);
+          let md = await cryptonateSC.methods
+            .getBalance(selectedAccount)
+            .call({ from: selectedAccount });
+          setMetaData(md);
+          console.log("RESPONSE", md);
+
           constructPolls(res);
         }
       } catch (error) {
@@ -78,6 +87,18 @@ const AllPolls = ({ userType, address, charityAddress }) => {
 
   return (
     <Box>
+      <Box
+        sx={{
+          boxShadow: "-1px 1px 7px #dadada",
+          padding: "25px",
+          width: "200px",
+          marginBottom: "30px",
+          borderRadius: "8px",
+        }}
+      >
+        My Faunacoins: {metaData}
+      </Box>
+
       <PageHeading
         title="All polls"
         subtitle="Polls raised to meet expenses of the charity"
@@ -102,24 +123,25 @@ const AllPolls = ({ userType, address, charityAddress }) => {
                   {poll.status}
                 </Typography>
 
-                {userType === "donor" && (
-                  <Stack direction="row" spacing={3}>
-                    <Button
-                      variant="contained"
-                      color="success"
-                      onClick={() => v(poll.id, 1)}
-                    >
-                      Approve
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      onClick={() => v(poll.id, 0)}
-                    >
-                      Disapprove
-                    </Button>
-                  </Stack>
-                )}
+                {userType === "donor" &&
+                  poll.status.includes("Voting in progress") && (
+                    <Stack direction="row" spacing={3}>
+                      <Button
+                        variant="contained"
+                        color="success"
+                        onClick={() => v(poll.id, 1)}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => v(poll.id, 0)}
+                      >
+                        Disapprove
+                      </Button>
+                    </Stack>
+                  )}
               </AccordionDetails>
             </Accordion>
           ))}

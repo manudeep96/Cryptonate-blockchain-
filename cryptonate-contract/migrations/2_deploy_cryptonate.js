@@ -17,3 +17,7 @@ module.exports = function(deployer) {
     return deployer.deploy(Donate, Coin.address);
   });
 };
+
+// module.exports = function (deployer) {
+//   deployer.deploy(FC);
+// };
