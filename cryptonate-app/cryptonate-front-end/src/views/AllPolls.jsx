@@ -37,9 +37,9 @@ const AllPolls = ({ userType, address, charityAddress }) => {
         polls[i] = {};
         polls[i].description = res[2][i];
         polls[i].id = i;
-        let app = res[0][i] + 0;
-        let dis = res[1][i] + 0;
-        let total = res[3] + 0;
+        let app = res[0][i] * 1;
+        let dis = res[1][i] * 1;
+        let total = res[3] * 1;
         let status;
         if ((app + dis) / total > 75 / 100) {
           status = `Approved by ${Math.round(app / total) * 100}%`;
@@ -65,9 +65,12 @@ const AllPolls = ({ userType, address, charityAddress }) => {
             method: "eth_requestAccounts",
           });
           selectedAccount = accounts[0];
-
+          let fromAddress;
+          if (sessionStorage.getItem("role") === "charity")
+            fromAddress = address;
+          else fromAddress = charityAddress;
           const res = await cryptonateSC.methods
-            .getPolls(charityAddress)
+            .getPolls(fromAddress)
             .call({ from: selectedAccount });
           let md = await cryptonateSC.methods
             .getBalance(selectedAccount)

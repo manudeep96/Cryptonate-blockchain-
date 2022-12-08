@@ -862,7 +862,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.10",
-  "updatedAt": "2022-12-08T00:29:33.094Z",
+  "updatedAt": "2022-12-08T02:40:28.607Z",
   "devdoc": {
     "author": "Matt Condon (@shrugs)",
     "details": "Provides counters that can only be incremented, decremented or reset. This can be used e.g. to track the number of elements in a mapping, issuing ERC721 ids, or counting request ids. Include with `using Counters for Counters.Counter;`",
