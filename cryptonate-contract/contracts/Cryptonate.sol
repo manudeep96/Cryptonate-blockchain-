@@ -258,7 +258,6 @@ contract Cryptonate {
             descs[i] = ac[charityAddresses[i]].description;
             addrs[i] = charityAddresses[i];
         }
-
         return (names, descs, addrs);
     }
 
