@@ -22492,12 +22492,12 @@
         }
       },
       "links": {},
-      "address": "0xF3BB41ffB62551ff3eC9Cc15652977658E60805E",
-      "transactionHash": "0x007bf85457e89eb9f1cba91be3747628ea35fff466dc508ba3521bc906c32dd6"
+      "address": "0xFaae33e2f8532740adfF85DAbEF18c20860Ba752",
+      "transactionHash": "0x8caf77be8f0ec399df4e65cc6b9322a484c620fdbfaf25d560cbf73c97b210fe"
     }
   },
   "schemaVersion": "3.4.10",
-  "updatedAt": "2022-12-08T16:20:34.627Z",
+  "updatedAt": "2022-12-08T22:09:43.874Z",
   "networkType": "ethereum",
   "devdoc": {
     "custom:security-contact": "manudeep@buffalo.edu",
