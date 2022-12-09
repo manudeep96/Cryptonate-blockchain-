@@ -5,7 +5,7 @@ const Donate = artifacts.require(
 const FC = artifacts.require("cryptonate-contract/contracts/faunacoin.sol");
 
 module.exports = function (deployer) {
-  deployer.deploy(Donate, "0x4989D6d0171212f7C88E29A8F4a1B0C967d094a1");
+  deployer.deploy(Donate, "0x8686bA925ea3CB9d6aAb6BF3893b4d0f0A26576c");
 };
 
 // module.exports = function (deployer) {

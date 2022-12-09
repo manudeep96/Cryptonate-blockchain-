@@ -14,13 +14,13 @@ export const privateRoutes = [
     sideBar: true,
     userType: ["donor", "charity"],
   },
-  // {
-  //   name: "All Activity",
-  //   element: RecentActivity,
-  //   path: "/allactivity",
-  //   sideBar: true,
-  //   userType: ["donor", "charity"],
-  // },
+  {
+    name: "All Activity",
+    element: RecentActivity,
+    path: "/allactivity",
+    sideBar: true,
+    userType: ["donor", "charity"],
+  },
   {
     name: "Donate",
     element: Donate,

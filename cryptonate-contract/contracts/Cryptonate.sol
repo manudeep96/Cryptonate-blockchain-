@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity >=0.5.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -42,6 +42,21 @@ contract Cryptonate {
 
     // Hold details of all charities
     mapping(address => Charity) allCharities;
+
+    struct Donations {
+        address donorAddress;
+        uint256 amount;
+    }
+
+    // Hold donations for each charity
+    mapping(address => Donations[]) allDonations;
+
+    struct Withdrawals {
+        string expenseType;
+        string purpose;
+        uint256 amount;
+    }
+    mapping(address => Withdrawals[]) allWithdrawals;
 
     address[10] charityAddresses;
 
@@ -113,7 +128,9 @@ contract Cryptonate {
         // Add amount to charity's purse
         Charity storage c = allCharities[charityAddress];
         c.funds += amount;
-
+        allDonations[charityAddress].push(
+            Donations(msg.sender, amount / 1000000000000000000)
+        );
         // This is to check if the donor should be allowed to respond to a poll by this charity
         if (d.charities[charityAddress] == false) {
             d.charities[charityAddress] = true;
@@ -135,6 +152,10 @@ contract Cryptonate {
         if (expenseType == 0) {
             // Send funds
             payable(msg.sender).transfer(amount * 1000000000000000000);
+
+            allWithdrawals[msg.sender].push(
+                Withdrawals("Operational Expense", description, amount)
+            );
         } else {
             Charity storage c = allCharities[msg.sender];
             c.polls[c.numPolls].pollId = c.numPolls;
@@ -174,6 +195,13 @@ contract Cryptonate {
             c.polls[pollId].state = 1;
             payable(charityAddress).transfer(
                 c.polls[pollId].amount * 1000000000000000000
+            );
+            allWithdrawals[charityAddress].push(
+                Withdrawals(
+                    "Capital Expense",
+                    c.polls[pollId].description,
+                    c.polls[pollId].amount
+                )
             );
         }
     }
@@ -241,6 +269,34 @@ contract Cryptonate {
             addrs[i] = charityAddresses[i];
         }
         return (names, descs, addrs);
+    }
+
+    function getDonations(address charityAddress)
+        public
+        view
+        returns (address[100] memory, uint256[100] memory)
+    {
+        address[100] memory donors;
+        uint256[100] memory amounts;
+        for (uint256 i = 0; i < allDonations[charityAddress].length; i++) {
+            donors[i] = allDonations[charityAddress][i].donorAddress;
+            amounts[i] = allDonations[charityAddress][i].amount;
+        }
+        return (donors, amounts);
+    }
+
+    function getWithdrawals(address charityAddress)
+        public
+        view
+        returns (string[100] memory, uint256[100] memory)
+    {
+        string[100] memory expenseType;
+        uint256[100] memory amounts;
+        for (uint256 i = 0; i < allWithdrawals[charityAddress].length; i++) {
+            expenseType[i] = allWithdrawals[charityAddress][i].expenseType;
+            amounts[i] = allWithdrawals[charityAddress][i].amount;
+        }
+        return (expenseType, amounts);
     }
 
     // Get the current number of polls of a given organisation

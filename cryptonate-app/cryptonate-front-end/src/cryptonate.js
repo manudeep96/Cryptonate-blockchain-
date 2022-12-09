@@ -1,6 +1,6 @@
 import web3 from "./web3";
 
-const address = "0x48594338734c009A6C55cD5aba6ff0c626e9CcCF";
+const address = "0x1b7c10e4B29Cd5c5ee878EEd4EdaA09319ce55d0";
 
 const abi = [
   {
@@ -264,6 +264,56 @@ const abi = [
         internalType: "address[10]",
         name: "",
         type: "address[10]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "charityAddress",
+        type: "address",
+      },
+    ],
+    name: "getDonations",
+    outputs: [
+      {
+        internalType: "address[100]",
+        name: "",
+        type: "address[100]",
+      },
+      {
+        internalType: "uint256[100]",
+        name: "",
+        type: "uint256[100]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "charityAddress",
+        type: "address",
+      },
+    ],
+    name: "getWithdrawals",
+    outputs: [
+      {
+        internalType: "string[100]",
+        name: "",
+        type: "string[100]",
+      },
+      {
+        internalType: "uint256[100]",
+        name: "",
+        type: "uint256[100]",
       },
     ],
     stateMutability: "view",
