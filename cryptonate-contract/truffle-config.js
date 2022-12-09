@@ -46,9 +46,9 @@
 
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
 
-require('dotenv').config();
-const HDWalletProvider = require('@truffle/hdwallet-provider');
-const { INFURA_API_KEY, MNEMONIC } = process.env;
+// require('dotenv').config();
+// const HDWalletProvider = require('@truffle/hdwallet-provider');
+// const { INFURA_API_KEY, MNEMONIC } = process.env;
 
 module.exports = {
   /**
@@ -86,10 +86,10 @@ module.exports = {
     //
     // Useful for deploying to a public network.
     // Note: It's important to wrap the provider as a function to ensure truffle uses a new provider every time.
-    goerli: {
-      provider: () => new HDWalletProvider(MNEMONIC, INFURA_API_KEY),
-      network_id: "*"
-    },
+    // goerli: {
+    //   provider: () => new HDWalletProvider(MNEMONIC, INFURA_API_KEY),
+    //   network_id: "*"
+    // },
     //
     // Useful for private networks
     // private: {
